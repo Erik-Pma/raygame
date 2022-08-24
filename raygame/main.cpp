@@ -10,22 +10,24 @@
 ********************************************************************************************/
 
 #include "raylib.h"
-
+#include "baseGame.h"
 int main()
 {
 	// Initialization
 	//--------------------------------------------------------------------------------------
-	int screenWidth = 800;
-	int screenHeight = 450;
-
-	InitWindow(screenWidth, screenHeight, "raylib [core] example - basic window");
-
-	SetTargetFPS(60);
+	baseGame* game = new baseGame();
+	game-> init();
 	//--------------------------------------------------------------------------------------
 
 	// Main game loop
 	while (!WindowShouldClose())    // Detect window close button or ESC key
 	{
+		game->update();
+		
+		while (game->shouldFixedUpdate()) 
+		{
+			game->fixedUpdate();
+		}
 		// Update
 		//----------------------------------------------------------------------------------
 		// TODO: Update your variables here
@@ -37,7 +39,7 @@ int main()
 
 		ClearBackground(RAYWHITE);
 
-		DrawText("Congrats! You created your first window!", 190, 200, 20, LIGHTGRAY);
+		
 
 		EndDrawing();
 		//----------------------------------------------------------------------------------
