@@ -13,7 +13,7 @@ physicsObject::physicsObject()
 void physicsObject::draw() 
 {
 	//this depends on shape
-	DrawCircleV(position, 2, MAROON);
+	DrawCircleV({800,450}, 20, MAROON);
 }
 rigidBody::rigidBody() 
 {
