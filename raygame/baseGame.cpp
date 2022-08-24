@@ -18,8 +18,10 @@ void baseGame::init()
 
 	InitWindow(screenWidth, screenHeight, "raylib [core] example - basic window");
 
+	sphere ball = sphere(Vector2{ 0,0 }, Vector2{ 0,0 }, 1, 2, MAROON);
 	SetTargetFPS(60);
 	//TODO: add any other things to initalition 
+	Objects.push_back(ball);
 }
 
 void baseGame::update() 
@@ -28,7 +30,8 @@ void baseGame::update()
 	accumatedFixedTime += GetFrameTime();
 
 	//TODO: all update data goes here
-
+	
+	
 }
 void baseGame::fixedUpdate() 
 {
@@ -38,4 +41,11 @@ void baseGame::fixedUpdate()
 bool baseGame::shouldFixedUpdate()
 {
 	return accumatedFixedTime >= targetFixedStep;
+}
+void baseGame::draw() 
+{
+	for (size_t i = 0; i < Objects.size(); i++)
+	{
+		Objects.front().draw();
+	}
 }

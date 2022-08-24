@@ -2,6 +2,7 @@
 #include "raylib.h"
 #include "physics.h"
 #include <list>
+#include "sphere.h"
 class baseGame
 {
 public:
@@ -17,6 +18,7 @@ public:
 	void update();
 	void fixedUpdate();
 	
+	void draw();
 
 	bool shouldFixedUpdate();
 };

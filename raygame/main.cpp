@@ -11,6 +11,7 @@
 
 #include "raylib.h"
 #include "baseGame.h"
+#include "sphere.h"
 int main()
 {
 	// Initialization
@@ -37,9 +38,10 @@ int main()
 		//----------------------------------------------------------------------------------
 		BeginDrawing();
 
-		ClearBackground(RAYWHITE);
-
 		
+		ClearBackground(RAYWHITE);
+		
+		game->draw();
 
 		EndDrawing();
 		//----------------------------------------------------------------------------------
