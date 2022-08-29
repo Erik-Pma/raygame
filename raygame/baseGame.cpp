@@ -34,6 +34,7 @@ void baseGame::init()
 	InitWindow(screenWidth, screenHeight, "raylib [core] example - basic window");
 
 	detectionMap[static_cast<uint8_t>(shapeType::CIRCLE | shapeType::CIRCLE)] = checkCircleCircle;
+	detectionMap[static_cast<uint8_t>(shapeType::AABB | shapeType::AABB)] = checkAabbAabb;
 	SetTargetFPS(60);
 	//TODO: add any other things to initalition 
 	//Objects.push_back(ball);

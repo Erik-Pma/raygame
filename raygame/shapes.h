@@ -9,8 +9,8 @@ struct circle
 };
 struct aabb
 {
-	float hieght;
-	float width;
+	float size;
+	
 };
 
 enum class shapeType : uint8_t
@@ -37,3 +37,9 @@ bool checkCircleCircle(const Vector2& posA, circle circleA, const Vector2& posB,
 //wrapper for circle-circle collision
 
 bool checkCircleCircle(const Vector2& posA, const shape & circleA, const Vector2& posB, const shape & circleB);
+
+bool checkAabbAabb(const Vector2& posA, aabb aabbA, const Vector2& posB, aabb aabbB);
+
+bool checkAabbAabb(const Vector2& posA, const shape & aabbA, const Vector2& posB, const shape & aabbB);
+
+bool checkCircleAabb(const Vector2& posA)

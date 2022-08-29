@@ -18,6 +18,8 @@ void physicsObject::draw()
 	case shapeType::CIRCLE:
 		DrawCircle(position.x, position.y, collider.circleData.radius, MAROON);
 		break;
+	case shapeType::AABB:
+		DrawRectangle(position.x, position.y, collider.aabbData.size,collider.aabbData.size, GREEN);
 	}
 }
 rigidBody::rigidBody() 

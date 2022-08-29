@@ -28,6 +28,19 @@ void demoGame::onTick()
 		babyPhys.collider = babyCircle;
 	}
 	
+	bool  mb1 = IsMouseButtonPressed(1);
+	if (mb1) 
+	{
+		physObject.emplace_back();
+		auto& babyPhys = physObject.back();
+		Vector2 mousePos = GetMousePosition();
+		babyPhys.position = { mousePos.x,mousePos.y };
 
-	
+		shape babyAabb;
+
+		babyAabb.type = shapeType::AABB;
+		babyAabb.aabbData.size = 50.0f;
+		babyPhys.collider = babyAabb;
+
+	}
 }
