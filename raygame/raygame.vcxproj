@@ -146,11 +146,16 @@
     <ClCompile Include="baseGame.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="physics.cpp" />
+    <ClCompile Include="shapes.cpp" />
+    <ClCompile Include="Source.cpp" />
     <ClCompile Include="sphere.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="baseGame.h" />
+    <ClInclude Include="demoGame.h" />
+    <ClInclude Include="enumUtill.h" />
     <ClInclude Include="physics.h" />
+    <ClInclude Include="shapes.h" />
     <ClInclude Include="sphere.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

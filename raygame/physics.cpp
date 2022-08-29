@@ -13,7 +13,12 @@ physicsObject::physicsObject()
 void physicsObject::draw() 
 {
 	//this depends on shape
-	DrawCircleV({800,450}, 20, MAROON);
+	switch (collider.type)
+	{
+	case shapeType::CIRCLE:
+		DrawCircle(position.x, position.y, collider.circleData.radius, MAROON);
+		break;
+	}
 }
 rigidBody::rigidBody() 
 {

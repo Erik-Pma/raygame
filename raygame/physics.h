@@ -1,10 +1,7 @@
 #pragma once
 #include "raylib.h"
-enum ShapeType {
-	PLANE = 0,
-	SPHERE,
-	BOX
-};
+
+#include "shapes.h";
 
 class physicsObject
 {
@@ -13,13 +10,21 @@ public:
 	Vector2 position;
 	Vector2 velocity;
 
+	Vector2 force;
+
+	shape collider;
+
 	float mass;
+	float drag;
+
 	bool isStatic;
 	bool useGravity;
+
 	//TODO: Add shape/collider
 
 	void draw();
 	//TODO: add function for applying/getting forces
+	void tickPhys(float delta);
 };
 class rigidBody: public physicsObject
 {

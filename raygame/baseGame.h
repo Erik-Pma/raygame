@@ -6,6 +6,12 @@
 class baseGame
 {
 protected:
+	void virtual onInit() { }
+	void virtual onTick() { }
+	void virtual onTickPhys() { }
+	void virtual onDraw() const { }
+	void virtual onExit() { }
+	
 	bool useGravity;
 	bool usingWrapping;
 
