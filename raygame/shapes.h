@@ -7,6 +7,11 @@ struct circle
 	//TODO: local offset
 	float radius;
 };
+struct aabb
+{
+	float hieght;
+	float width;
+};
 
 enum class shapeType : uint8_t
 {
@@ -23,6 +28,7 @@ struct shape
 	union
 	{
 		circle circleData;
+		aabb aabbData;
 	};
 };
 

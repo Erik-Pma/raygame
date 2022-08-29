@@ -89,11 +89,7 @@ bool baseGame::shouldFixedUpdate()
 	return accumatedFixedTime >= targetFixedStep;
 }
 void baseGame::draw() {
-	/*
-	for (size_t i = 0; i < Objects.size(); i++)
-	{
-		Objects.front().draw();
-	}*/
+	
 	for (physicsObject& obj : physObject)
 	{
 		obj.draw();
