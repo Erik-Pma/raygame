@@ -1,12 +1,19 @@
 #pragma once
 #include "raylib.h"
 #include "physics.h"
-#include <list>
+#include <vector>
 #include "sphere.h"
 class baseGame
 {
+protected:
+	bool useGravity;
+	bool usingWrapping;
+
 public:
 	baseGame();
+
+	std::vector<physicsObject> physObject;
+
 
 	float targetFixedStep;
 	float accumatedFixedTime;
