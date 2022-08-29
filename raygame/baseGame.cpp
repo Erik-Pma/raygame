@@ -5,11 +5,11 @@ baseGame::baseGame()
 {
 	accumatedFixedTime = 0.0f;
 	targetFixedStep = 1.0f / 30.0;
-}
+}/*
 void baseGame::addObject(rigidBody object) 
 {
 	Objects.push_back(object);
-}
+}*/
 
 void baseGame::init() 
 {
@@ -21,7 +21,7 @@ void baseGame::init()
 	sphere ball = sphere(Vector2{ 0,0 }, Vector2{ 0,0 }, 1, 2, MAROON);
 	SetTargetFPS(60);
 	//TODO: add any other things to initalition 
-	Objects.push_back(ball);
+	//Objects.push_back(ball);
 }
 
 void baseGame::update() 
@@ -42,10 +42,10 @@ bool baseGame::shouldFixedUpdate()
 {
 	return accumatedFixedTime >= targetFixedStep;
 }
-void baseGame::draw() 
-{
+void baseGame::draw() {
+/*
 	for (size_t i = 0; i < Objects.size(); i++)
 	{
 		Objects.front().draw();
-	}
+	}*/
 }
