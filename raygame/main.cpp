@@ -11,7 +11,7 @@
 
 #include "raylib.h"
 #include "demoGame.h"
-#include "sphere.h"
+
 int main()
 {
 	// Initialization

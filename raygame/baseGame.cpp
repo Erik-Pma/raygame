@@ -3,6 +3,7 @@
 #include <iostream>
 #include <unordered_map>
 #include "enumUtill.h"
+#include "raymath.h"
 // a  type alias to make this reable
 using collisionPair = uint8_t;
 // a type alias for a function sig for a collision func
@@ -10,6 +11,10 @@ using collisionFunc = bool(*)(const Vector2&, const shape&, const Vector2&, cons
 //a type alias for a map <collision pair, collision func>
 using collisionMap = std::unordered_map<collisionPair, collisionFunc>;
 
+using depenatrationFunction = Vector2(*)(const Vector2& posA, const shape& shapeA, const Vector2& posB, const shape& shapeB, float& pen);
+using depentrationMap = std::unordered_map<collisionPair, depenatrationFunction>;
+
+depentrationMap depenMap;
 collisionMap detectionMap;
 
 baseGame::baseGame()
@@ -35,6 +40,9 @@ void baseGame::init()
 
 	detectionMap[static_cast<uint8_t>(shapeType::CIRCLE | shapeType::CIRCLE)] = checkCircleCircle;
 	detectionMap[static_cast<uint8_t>(shapeType::AABB | shapeType::AABB)] = checkAabbAabb;
+	detectionMap[static_cast<uint8_t>(shapeType::CIRCLE | shapeType::AABB)] = checkCircleAabb;
+
+	depenMap [static_cast<uint8_t>(shapeType::CIRCLE | shapeType::CIRCLE)]= depenatrateCircleCircle;
 	SetTargetFPS(60);
 	//TODO: add any other things to initalition 
 	//Objects.push_back(ball);
@@ -55,6 +63,32 @@ void baseGame::fixedUpdate()
 {
 	accumatedFixedTime -= targetFixedStep;
 	//TODO: physics updates in here;
+	for (physicsObject& i : physObject) 
+	{
+		Vector2 dragForce = Vector2Scale( Vector2Multiply(i.velocity,i.velocity), 0.5 * i.drag);
+
+		// totally not fake gravity and drag
+		i.applyForce({ 0,1.862f },1);
+		i.applyForce(Vector2Negate (dragForce));
+		i.position = Vector2Add(i.position,i.velocity);
+		// screen wrapping
+		if (i.position.x > 1600) {
+			std::cout << "0 overlapping right side" << std::endl;
+			i.position.x = 0 + i.collider.circleData.radius;
+		}
+		if (i.position.x < 0) {
+			std::cout << "1 overlapping left side" << std::endl;
+			i.position.x = 1600 - i.collider.circleData.radius;
+		}
+		if (i.position.y > 900) {
+			std::cout << "2 overlapping top side" << std::endl;
+			i.position.y = 0 + i.collider.circleData.radius;
+		}
+		if (i.position.y < 0) {
+			std::cout << "3 overlapping bottom side" << std::endl;
+			i.position.y = 900 - i.collider.circleData.radius;
+		}
+	}
 	//intergratephysics
 
 	//test for collision
@@ -79,6 +113,8 @@ void baseGame::fixedUpdate()
 			{
 				std::cout << "I did a thing" << std::endl;
 				//TODO: DO things
+				float pen = 0;
+				depenMap[pair](lhs->position, lhs->collider, rhs->position, rhs->collider, pen);
 			}
 		}
 	}

@@ -2,7 +2,7 @@
 #include "raylib.h"
 #include "physics.h"
 #include <vector>
-#include "sphere.h"
+
 class baseGame
 {
 protected:

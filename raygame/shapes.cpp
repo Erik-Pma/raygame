@@ -73,3 +73,24 @@ bool checkCircleAabb(const Vector2& posA, const shape& Circle, const Vector2& po
 	return checkCircleAabb(posA, Circle.circleData,posB,Aabb.aabbData);
 }
 
+Vector2 depenatrateCircleCircle(const Vector2& posA, const shape& shapeA, const Vector2& posB, const shape& shapeB,float&pen)
+{
+	float dist = Vector2Distance(posA, posB);
+	float radiusSum = shapeA.circleData.radius + shapeB.circleData.radius;
+
+	pen = radiusSum - dist;
+
+	return Vector2Normalize(Vector2Subtract(posA, posB));
+}
+
+float resolveCollision(Vector2 posA, Vector2 velA, float massA, Vector2 posB, Vector2 velB, float massB, float elasticity, const Vector2& normal)
+{
+	Vector2 relativeVelocity = Vector2Subtract(velA, velB);
+
+	float impulsMagnutude = 0;
+
+	return impulsMagnutude;
+}
+
+
+
