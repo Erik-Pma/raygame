@@ -67,12 +67,27 @@ bool checkCircleAabb(const Vector2& posA, circle Circle, const Vector2& posB, aa
 	}
 	return false;
 }
-
+/// <summary>
+/// 
+/// </summary>
+/// <param name="posA"></param>
+/// <param name="Circle"></param>
+/// <param name="posB"></param>
+/// <param name="Aabb"></param>
+/// <returns></returns>
 bool checkCircleAabb(const Vector2& posA, const shape& Circle, const Vector2& posB, const shape& Aabb)
 {
 	return checkCircleAabb(posA, Circle.circleData,posB,Aabb.aabbData);
 }
-
+/// <summary>
+/// how to move to circles that are colliding with each other
+/// </summary>
+/// <param name="posA">posision of the first circle</param>
+/// <param name="shapeA"> what type of shape that is colliding even tho we know its a circle</param>
+/// <param name="posB">posision of second circle</param>
+/// <param name="shapeB">what type of shape that is colliding even tho we know its a circle</param>
+/// <param name="pen">distance the 2 objects are penatrating</param>
+/// <returns>vector2 to move both objects by</returns>
 Vector2 depenatrateCircleCircle(const Vector2& posA, const shape& shapeA, const Vector2& posB, const shape& shapeB,float&pen)
 {
 	float dist = Vector2Distance(posA, posB);
@@ -82,7 +97,18 @@ Vector2 depenatrateCircleCircle(const Vector2& posA, const shape& shapeA, const 
 
 	return Vector2Normalize(Vector2Subtract(posA, posB));
 }
-
+/// <summary>
+/// takes in the the values of 2 objects and caluclates the impulse force and returns it
+/// </summary>
+/// <param name="posA"> the position of object 1</param>
+/// <param name="velA"> the velocity of object 1</param>
+/// <param name="massA"> the mass of object 1</param>
+/// <param name="posB">the position of object 2</param>
+/// <param name="velB">the velocity of object 2</param>
+/// <param name="massB">the mass of object 2</param>
+/// <param name="elasticity">the elasticity of the interaction</param>
+/// <param name="normal"> the normal vector of the interaction</param>
+/// <returns>impulse force</returns>
 float resolveCollision(Vector2 posA, Vector2 velA, float massA, Vector2 posB, Vector2 velB, float massB, float elasticity, const Vector2& normal)
 {
 	Vector2 relativeVelocity = Vector2Subtract(velA, velB);
