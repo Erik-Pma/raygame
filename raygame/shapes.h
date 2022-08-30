@@ -42,4 +42,7 @@ bool checkAabbAabb(const Vector2& posA, aabb aabbA, const Vector2& posB, aabb aa
 
 bool checkAabbAabb(const Vector2& posA, const shape & aabbA, const Vector2& posB, const shape & aabbB);
 
-bool checkCircleAabb(const Vector2& posA)
+bool checkCircleAabb(const Vector2& posA, circle Circle, const Vector2& posB, aabb Aabb);
+
+
+bool checkCircleAabb(const Vector2& posA, const shape& Circle, const Vector2& posB, const shape& Aabb);

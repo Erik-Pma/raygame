@@ -34,3 +34,42 @@ bool checkAabbAabb(const Vector2& posA, const shape& aabbA, const Vector2& posB,
 {
 	return checkAabbAabb(posA, aabbA.aabbData,posB ,aabbB.aabbData);
 }
+
+bool checkCircleAabb(const Vector2& posA, circle Circle, const Vector2& posB, aabb Aabb)
+{
+	float testX = posA.x;
+	float testY = posA.y;
+
+	if (posA.x < posB.x)
+	{
+		testX = posB.x;
+	}
+	else if (posA.x > posB.x + Aabb.size)
+	{
+		testX = posB.x + Aabb.size;
+	}
+	if (posA.y < posB.y)
+	{
+		testY = posB.y;
+	}
+	else if (posA.y > posB.y + Aabb.size)
+	{
+		testY = posB.y + Aabb.size;
+	}
+
+	float distX = posA.x - testX;
+	float distY = posA.y - testY;
+	float distance = sqrt((distX * distX) + (distY * distY));
+
+	if (distance <= Circle.radius)
+	{
+		return true;
+	}
+	return false;
+}
+
+bool checkCircleAabb(const Vector2& posA, const shape& Circle, const Vector2& posB, const shape& Aabb)
+{
+	return checkCircleAabb(posA, Circle.circleData,posB,Aabb.aabbData);
+}
+
