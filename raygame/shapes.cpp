@@ -87,10 +87,12 @@ float resolveCollision(Vector2 posA, Vector2 velA, float massA, Vector2 posB, Ve
 {
 	Vector2 relativeVelocity = Vector2Subtract(velA, velB);
 
-	float impulsMagnutude = 0;
+	float impulsMagnutude = (2 * Vector2DotProduct(Vector2Subtract(velA,velB), normal))
+		/(Vector2DotProduct(normal,normal)*((1/massA)+(1/massB)));
 
 	return impulsMagnutude;
 }
+
 
 
 
