@@ -1,6 +1,14 @@
 #include "shapes.h"
 #include <iostream>
 #include "raymath.h"
+/// <summary>
+/// check so see if the cicles are colliding
+/// </summary>
+/// <param name="posA"></param>
+/// <param name="circleA"></param>
+/// <param name="posB"></param>
+/// <param name="circleB"></param>
+/// <returns></returns>
 bool checkCircleCircle(const Vector2& posA, circle circleA, const Vector2& posB, circle circleB) 
 {
 	//retrieve the sum of their radii
@@ -34,12 +42,19 @@ bool checkAabbAabb(const Vector2& posA, const shape& aabbA, const Vector2& posB,
 {
 	return checkAabbAabb(posA, aabbA.aabbData,posB ,aabbB.aabbData);
 }
-
+/// <summary>
+/// check to see if an aabb and a circle are colliding with eachother and returns a bool if they are
+/// </summary>
+/// <param name="posA">position of the circle</param>
+/// <param name="Circle">the data of the cicle</param>
+/// <param name="posB">the position of the aabb</param>
+/// <param name="Aabb">the data of the aabb</param>
+/// <returns>returns true if they are connected</returns>
 bool checkCircleAabb(const Vector2& posA, circle Circle, const Vector2& posB, aabb Aabb)
 {
 	float testX = posA.x;
 	float testY = posA.y;
-
+	// check to see what side of the box you are on
 	if (posA.x < posB.x)
 	{
 		testX = posB.x;
@@ -56,7 +71,7 @@ bool checkCircleAabb(const Vector2& posA, circle Circle, const Vector2& posB, aa
 	{
 		testY = posB.y + Aabb.size;
 	}
-
+	//check to see the distance the sphwew is away form the line
 	float distX = posA.x - testX;
 	float distY = posA.y - testY;
 	float distance = sqrt((distX * distX) + (distY * distY));
@@ -68,13 +83,13 @@ bool checkCircleAabb(const Vector2& posA, circle Circle, const Vector2& posB, aa
 	return false;
 }
 /// <summary>
-/// 
+/// check to see if an aabb and a circle are colliding with eachother and returns a bool if they are
 /// </summary>
-/// <param name="posA"></param>
-/// <param name="Circle"></param>
-/// <param name="posB"></param>
-/// <param name="Aabb"></param>
-/// <returns></returns>
+/// <param name="posA">the position of the first object</param>
+/// <param name="Circle"> the circle of of the 2 objects</param>
+/// <param name="posB">posision of the aabb</param>
+/// <param name="Aabb"> theaabb out of the 2 obnects</param>
+/// <returns>returns true if they are over lapping</returns>
 bool checkCircleAabb(const Vector2& posA, const shape& Circle, const Vector2& posB, const shape& Aabb)
 {
 	return checkCircleAabb(posA, Circle.circleData,posB,Aabb.aabbData);
