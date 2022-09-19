@@ -43,6 +43,7 @@ void baseGame::init()
 	detectionMap[static_cast<uint8_t>(shapeType::CIRCLE | shapeType::AABB)] = checkCircleAabb;
 
 	depenMap [static_cast<uint8_t>(shapeType::CIRCLE | shapeType::CIRCLE)]= depenatrateCircleCircle;
+	depenMap [static_cast<uint8_t>(shapeType::AABB | shapeType::AABB)];
 	SetTargetFPS(60);
 	//TODO: add any other things to initalition 
 	//Objects.push_back(ball);
@@ -111,10 +112,15 @@ void baseGame::fixedUpdate()
 
 			if (isCollideing) 
 			{
-				std::cout << "I did a thing" << std::endl;
+				//std::cout << "I did a thing" << std::endl;
 				//TODO: DO things
 				float pen = 0;
-				depenMap[pair](lhs->position, lhs->collider, rhs->position, rhs->collider, pen);
+				Vector2 norm = depenMap[pair](lhs->position, lhs->collider, rhs->position, rhs->collider, pen);
+				lhs->position = Vector2Add (lhs->getPosition(), Vector2Scale(norm, pen/2));
+
+				rhs->position = Vector2Add(rhs->getPosition(), Vector2Scale(norm,-pen/2));
+				
+				//rhs->applyForce(Vector2Scale(norm, -1));
 			}
 		}
 	}
