@@ -109,14 +109,26 @@ Vector2 depenatrateCircleCircle(const Vector2& posA, const shape& shapeA, const 
 	float radiusSum = shapeA.circleData.radius + shapeB.circleData.radius;
 
 	pen = radiusSum - dist;
-	std::cout << "depen circle" << std::endl;
+	//std::cout << "depen circle" << std::endl;
 
 
 	return Vector2Normalize(Vector2Subtract(posA, posB));
 }
+/// <summary>
+/// 
+/// </summary>
+/// <param name="posA"></param>
+/// <param name="shapeA"></param>
+/// <param name="posB"></param>
+/// <param name="shapeB"></param>
+/// <param name="pen"></param>
+/// <returns></returns>
 Vector2 depenatrateAabbAabb(const Vector2& posA, const shape& shapeA, const Vector2& posB, const shape& shapeB, float& pen)
 {
-	//float dist = Vector2Distance(posA, posB);
+	Vector2 posACentered = {posA.x - shapeA.aabbData.size/2,posA.y - shapeA.aabbData.size/2};
+	Vector2 posBCentered = { posB.x - shapeB.aabbData.size / 2,posB.y - shapeB.aabbData.size / 2 };
+	float dist = Vector2Distance(posACentered, posBCentered);
+	
 	
 
 	return Vector2Normalize(Vector2Subtract(posA, posB));

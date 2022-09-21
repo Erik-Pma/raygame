@@ -43,7 +43,7 @@ void baseGame::init()
 	detectionMap[static_cast<uint8_t>(shapeType::CIRCLE | shapeType::AABB)] = checkCircleAabb;
 
 	depenMap [static_cast<uint8_t>(shapeType::CIRCLE | shapeType::CIRCLE)]= depenatrateCircleCircle;
-	depenMap [static_cast<uint8_t>(shapeType::AABB | shapeType::AABB)];
+	depenMap [static_cast<uint8_t>(shapeType::AABB | shapeType::AABB)]= depenatrateAabbAabb;
 	SetTargetFPS(60);
 	//TODO: add any other things to initalition 
 	//Objects.push_back(ball);
@@ -120,7 +120,7 @@ void baseGame::fixedUpdate()
 
 				rhs->position = Vector2Add(rhs->getPosition(), Vector2Scale(norm,-pen/2));
 				
-				//rhs->applyForce(Vector2Scale(norm, -1));
+				
 			}
 		}
 	}
