@@ -129,9 +129,9 @@ Vector2 depenatrateAabbAabb(const Vector2& posA, const shape& shapeA, const Vect
 	Vector2 posBCentered = { posB.x - shapeB.aabbData.size / 2,posB.y - shapeB.aabbData.size / 2 };
 	float dist = Vector2Distance(posACentered, posBCentered);
 	
-	
+	pen = dist - (shapeA.aabbData.size / 2) - (shapeB.aabbData.size / 2);
 
-	return Vector2Normalize(Vector2Subtract(posA, posB));
+	return Vector2Normalize(Vector2Subtract(posACentered, posBCentered));
 }
 /// <summary>
 /// takes in the the values of 2 objects and caluclates the impulse force and returns it
