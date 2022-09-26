@@ -31,11 +31,20 @@ bool checkCircleCircle(const Vector2& posA, const shape& circleA, const Vector2&
 
 bool checkAabbAabb(const Vector2& posA, aabb aabbA, const Vector2& posB, aabb aabbB)
 {
-	if (Vector2Distance(posA,posB) < (aabbA.size*sqrt(2)) + (aabbB.size*sqrt(2))) 
+	Vector2 posACentered = { posA.x + aabbA.size / 2,posA.y + aabbA.size / 2 };
+	
+	Vector2 posBCentered = { posB.x + aabbB.size / 2,posB.y + aabbB.size / 2 };
+	float left = posBCentered.x - (posACentered.x + aabbA.size);
+	float top = (posBCentered.y + aabbB.size) - posACentered.y;
+	float right = (posBCentered.x + aabbB.size) - posACentered.x;
+	float bottom = posBCentered.y - (posACentered.y + aabbA.size);
+	if (left > 0|| right < 0 || top < 0 || bottom > 0)
 	{
-		return true;
+		
+		return false;
 	}
-	return false;
+	std::cout << "you are coliding" << std::endl;
+	return true;
 }
 
 bool checkAabbAabb(const Vector2& posA, const shape& aabbA, const Vector2& posB, const shape& aabbB)
@@ -82,6 +91,28 @@ bool checkCircleAabb(const Vector2& posA, circle Circle, const Vector2& posB, aa
 	}
 	return false;
 }
+void setVelocity(const Vector2& velo, circle shape)
+{
+	shape.vx = velo.x;
+	shape.vy = velo.y;
+}
+void setVelocity(const Vector2& velo, aabb shape) 
+{
+	shape.vx = velo.x;
+	shape.vy = velo.y;
+}
+
+void setVelocity(const Vector2& velo, const shape& shape) 
+{
+	switch (shape.type)
+	{
+	case shapeType::CIRCLE:
+		setVelocity(velo,shape.circleData);
+		break;
+	case shapeType::AABB:
+		setVelocity(velo, shape.aabbData);
+	}
+}
 /// <summary>
 /// check to see if an aabb and a circle are colliding with eachother and returns a bool if they are
 /// </summary>
@@ -125,13 +156,65 @@ Vector2 depenatrateCircleCircle(const Vector2& posA, const shape& shapeA, const 
 /// <returns></returns>
 Vector2 depenatrateAabbAabb(const Vector2& posA, const shape& shapeA, const Vector2& posB, const shape& shapeB, float& pen)
 {
+
 	Vector2 posACentered = {posA.x - shapeA.aabbData.size/2,posA.y - shapeA.aabbData.size/2};
 	Vector2 posBCentered = { posB.x - shapeB.aabbData.size / 2,posB.y - shapeB.aabbData.size / 2 };
-	float dist = Vector2Distance(posACentered, posBCentered);
 	
-	pen = dist - (shapeA.aabbData.size / 2) - (shapeB.aabbData.size / 2);
+	float dxEntry;
+	float dxExit;
+	float dyEntry;
+	float dyExit;
 
-	return Vector2Normalize(Vector2Subtract(posACentered, posBCentered));
+	float txEntry;
+	float txExit;
+	float tyEntry;
+	float tyExit;
+
+	if (shapeA.aabbData.vx > 0.0f) 
+	{
+		dxEntry = posBCentered.x - (posACentered.x + shapeA.aabbData.size);
+		dxExit = (posBCentered.x + shapeB.aabbData.size) - posACentered.x;
+	}
+	else 
+	{
+		dxEntry = (posBCentered.x + shapeB.aabbData.size) - posACentered.x;
+		dxExit = posBCentered.x - (posACentered.x + shapeA.aabbData.size);
+	}
+	if (shapeA.aabbData.vy > 0.0f)
+	{
+		dyEntry = posBCentered.y - (posACentered.y + shapeA.aabbData.size);
+		dyExit = (posBCentered.y + shapeB.aabbData.size) - posACentered.y;
+	}
+	else
+	{
+		dyEntry = (posBCentered.y + shapeB.aabbData.size) - posACentered.y;
+		dyExit = posBCentered.y - (posACentered.y + shapeA.aabbData.size);
+	}
+	
+	if (shapeA.aabbData.vx == 0.0f) 
+	{
+		txEntry = -std::numeric_limits<float>::infinity();
+		txExit = std::numeric_limits<float>::infinity();
+	}
+	else 
+	{
+		txEntry = dxEntry / shapeA.aabbData.vx;
+		txExit = dxExit / shapeA.aabbData.vx;
+	}
+	if (shapeA.aabbData.vx == 0.0f)
+	{
+		tyEntry = -std::numeric_limits<float>::infinity();
+		tyExit = std::numeric_limits<float>::infinity();
+	}
+	else
+	{
+		tyEntry = dyEntry / shapeA.aabbData.vy;
+		tyExit = dyExit / shapeA.aabbData.vy;
+	}
+
+	return Vector2Normalize(Vector2Subtract(posACentered,posBCentered));
+	
+	
 }
 /// <summary>
 /// takes in the the values of 2 objects and caluclates the impulse force and returns it

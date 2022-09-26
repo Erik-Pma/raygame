@@ -6,11 +6,15 @@ struct circle
 {
 	//TODO: local offset
 	float radius;
+	float vx;
+	float vy;
+
 };
 struct aabb
 {
 	float size;
-	
+	float vx;
+	float vy;
 };
 
 enum class shapeType : uint8_t
@@ -43,6 +47,13 @@ bool checkAabbAabb(const Vector2& posA, aabb aabbA, const Vector2& posB, aabb aa
 bool checkAabbAabb(const Vector2& posA, const shape & aabbA, const Vector2& posB, const shape & aabbB);
 
 bool checkCircleAabb(const Vector2& posA, circle Circle, const Vector2& posB, aabb Aabb);
+
+void setVelocity(const Vector2& velo,  circle shape);
+
+void setVelocity(const Vector2& velo, aabb shape);
+
+void setVelocity(const Vector2& velo, const shape& shape);
+
 
 
 bool checkCircleAabb(const Vector2& posA, const shape& Circle, const Vector2& posB, const shape& Aabb);

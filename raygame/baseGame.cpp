@@ -112,10 +112,13 @@ void baseGame::fixedUpdate()
 
 			if (isCollideing) 
 			{
-				//std::cout << "I did a thing" << std::endl;
+				std::cout << "I did a thing" << std::endl;
 				//TODO: DO things
 				float pen = 0;
 				Vector2 norm = depenMap[pair](lhs->position, lhs->collider, rhs->position, rhs->collider, pen);
+
+				setVelocity(lhs->velocity, lhs->collider);
+
 				lhs->position = Vector2Add (lhs->getPosition(), Vector2Scale(norm, pen/2));
 
 				rhs->position = Vector2Add(rhs->getPosition(), Vector2Scale(norm,-pen/2));

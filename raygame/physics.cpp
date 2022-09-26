@@ -50,6 +50,12 @@ void physicsObject::resolvePhysBodies(physicsObject& lhs, physicsObject& rhs, fl
 */
 void physicsObject::applyForce(Vector2 gravity, float timeStep)
 {
+	switch (collider.type)
+	{
+	case shapeType::CIRCLE:
+		
+		break;
+	}
 	velocity = {velocity.x+(gravity.x * mass * timeStep),velocity.y+(gravity.y * mass * timeStep)};
 }
 
