@@ -65,4 +65,4 @@ Vector2 depenatrateAabbAabb(const Vector2& posA, const shape& shapeA, const Vect
 Vector2 depenatrateCircleAabb(const Vector2& posA, const shape& shapeA, const Vector2& posB, const shape& shapeB, float& pen);
 float resolveCollision(Vector2 posA, Vector2 velA, float massA, Vector2 posB, Vector2 velB, float massB, float elasticity, const Vector2& normal);
 
-	
+Vector2 calculateAabbDistanceTo(const Vector2& posA, const shape& shapeA, const Vector2& posB, const shape& shapeB);

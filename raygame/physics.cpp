@@ -1,5 +1,6 @@
 #include "physics.h"
 #include "raymath.h"
+#include<iostream>
 
 physicsObject::physicsObject() 
 {
@@ -61,5 +62,6 @@ void physicsObject::applyForce(Vector2 gravity, float timeStep)
 
 void physicsObject::applyForce(Vector2 force)
 {
+	std::cout << "force push" << std::endl;
 	velocity = {velocity.x + force.x,velocity.y+ force.y};
 }

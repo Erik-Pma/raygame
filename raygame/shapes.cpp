@@ -156,10 +156,45 @@ Vector2 depenatrateCircleCircle(const Vector2& posA, const shape& shapeA, const 
 /// <returns></returns>
 Vector2 depenatrateAabbAabb(const Vector2& posA, const shape& shapeA, const Vector2& posB, const shape& shapeB, float& pen)
 {
+	Vector2 posValue = {0,0};
 
-	Vector2 posACentered = {posA.x - shapeA.aabbData.size/2,posA.y - shapeA.aabbData.size/2};
-	Vector2 posBCentered = { posB.x - shapeB.aabbData.size / 2,posB.y - shapeB.aabbData.size / 2 };
+	Vector2 posACentered = {posA.x + shapeA.aabbData.size/2,posA.y + shapeA.aabbData.size/2};
+	Vector2 posBCentered = { posB.x + shapeB.aabbData.size / 2,posB.y + shapeB.aabbData.size / 2 };
+
+	Vector2 distance = calculateAabbDistanceTo(posACentered,shapeA,posBCentered,shapeB);
+	Vector2 velo = { shapeA.aabbData.vx,shapeA.aabbData.vy };
 	
+	
+	
+	
+	float xAxisTimeToCollide = velo.x != 0 ? abs(distance.x / velo.x) : 0;
+	float yAxisTimeToCollide = velo.y != 0 ? abs(distance.y / velo.y) : 0;
+
+	//std::cout << xAxisTimeToCollide << std::endl;
+	//std::cout << yAxisTimeToCollide << std::endl;
+	float shortestTime = 0;
+	 
+	pen = 1 ;
+	if (velo.x !=0 && velo.y == 0) 
+	{
+		shortestTime = xAxisTimeToCollide;
+		posValue.x = shortestTime * velo.x;
+
+
+	}
+	else if (velo.x == 0 && velo.y !=0) 
+	{
+		shortestTime = yAxisTimeToCollide;
+		posValue.y = shortestTime * velo.y;
+	}
+	else
+	{
+		shortestTime = __min( abs(xAxisTimeToCollide), abs(yAxisTimeToCollide));
+		posValue.x = shortestTime * velo.x;
+		posValue.y = shortestTime * velo.y;
+	}
+
+	/*
 	float dxEntry;
 	float dxExit;
 	float dyEntry;
@@ -211,8 +246,11 @@ Vector2 depenatrateAabbAabb(const Vector2& posA, const shape& shapeA, const Vect
 		tyEntry = dyEntry / shapeA.aabbData.vy;
 		tyExit = dyExit / shapeA.aabbData.vy;
 	}
+	*/
+	
 
-	return Vector2Normalize(Vector2Subtract(posACentered,posBCentered));
+
+	return posValue;
 	
 	
 }
@@ -232,10 +270,53 @@ float resolveCollision(Vector2 posA, Vector2 velA, float massA, Vector2 posB, Ve
 {
 	Vector2 relativeVelocity = Vector2Subtract(velA, velB);
 
+	float velAlongNormal = Vector2DotProduct(relativeVelocity, normal);
+
 	float impulsMagnutude = (2 * Vector2DotProduct(Vector2Subtract(velA,velB), normal))
 		/(Vector2DotProduct(normal,normal)*((1/massA)+(1/massB)));
 
-	return impulsMagnutude;
+	//float velAlongNormal = Vector2DotProduct(relativeVelocity, normal);
+
+	//if (velAlongNormal > 0)
+		//return;
+
+	return impulsMagnutude * elasticity;
+
+	
+
+
+	
+}
+
+Vector2 calculateAabbDistanceTo(const Vector2& posA, const shape& shapeA, const Vector2& posB, const shape& shapeB)
+{
+	Vector2 distance = {0,0};
+
+	if(posA.x <= posB.x)
+	{
+
+		distance.x = posB.x - (posA.x + shapeA.aabbData.size);
+		std::cout << distance.x << std::endl;
+	}
+	else if(posA.x > posB.x)
+	{
+		distance.x = posA.x - (posB.x + shapeB.aabbData.size);
+		std::cout << distance.x << std::endl;
+	}
+	if (posA.y <= posB.y) 
+	{
+		distance.y = posB.y - (posA.y + shapeA.aabbData.size);
+		std::cout << distance.y << std::endl;
+	}
+	else if (posB.y > posA.y) 
+	{
+		distance.y = posA.y - (posB.y + shapeB.aabbData.size);
+		std::cout << distance.y << std::endl;
+	}
+
+
+
+	return distance;
 }
 
 

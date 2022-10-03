@@ -66,27 +66,38 @@ void baseGame::fixedUpdate()
 	//TODO: physics updates in here;
 	for (physicsObject& i : physObject) 
 	{
-		Vector2 dragForce = Vector2Scale( Vector2Multiply(i.velocity,i.velocity), 0.5 * i.drag);
+		Vector2 dragForce = Vector2Scale( i.velocity, 0.5f * i.drag);
 
 		// totally not fake gravity and drag
-		i.applyForce({ 0,1.862f },1);
-		i.applyForce(Vector2Negate (dragForce));
+		
+		if (i.velocity.y < 20) 
+		{
+			i.applyForce({ 0,1.862f }, 1);
+		}
+		if (abs(i.velocity.x) + i.velocity.y > 20) 
+		{
+			
+			
+			
+			i.applyForce(Vector2Negate(dragForce));
+			i.velocity.x /= 2;
+		}
 		i.position = Vector2Add(i.position,i.velocity);
 		// screen wrapping
 		if (i.position.x > 1600) {
-			std::cout << "0 overlapping right side" << std::endl;
+			//std::cout << "0 overlapping right side" << std::endl;
 			i.position.x = 0 + i.collider.circleData.radius;
 		}
 		if (i.position.x < 0) {
-			std::cout << "1 overlapping left side" << std::endl;
+			//std::cout << "1 overlapping left side" << std::endl;
 			i.position.x = 1600 - i.collider.circleData.radius;
 		}
 		if (i.position.y > 900) {
-			std::cout << "2 overlapping top side" << std::endl;
+			//std::cout << "2 overlapping top side" << std::endl;
 			i.position.y = 0 + i.collider.circleData.radius;
 		}
 		if (i.position.y < 0) {
-			std::cout << "3 overlapping bottom side" << std::endl;
+			//std::cout << "3 overlapping bottom side" << std::endl;
 			i.position.y = 900 - i.collider.circleData.radius;
 		}
 	}
@@ -112,18 +123,27 @@ void baseGame::fixedUpdate()
 
 			if (isCollideing) 
 			{
-				std::cout << "I did a thing" << std::endl;
+				//std::cout << "I did a thing" << std::endl;
 				//TODO: DO things
+				//bool isPen = true;
 				float pen = 0;
 				Vector2 norm = depenMap[pair](lhs->position, lhs->collider, rhs->position, rhs->collider, pen);
 
-				setVelocity(lhs->velocity, lhs->collider);
+				//setVelocity(lhs->velocity, lhs->collider);
 
-				lhs->position = Vector2Add (lhs->getPosition(), Vector2Scale(norm, pen/2));
+				lhs->position = Vector2Add (lhs->getPosition(), Vector2Scale(norm, pen/1.7));
 
-				rhs->position = Vector2Add(rhs->getPosition(), Vector2Scale(norm,-pen/2));
+				rhs->position = Vector2Add(rhs->getPosition(), Vector2Scale(norm,-pen/1.7));
 				
+				float imp = resolveCollision(lhs->position, lhs->velocity, lhs->getMass(), rhs->position, rhs->velocity, rhs->getMass(), 0.5f, norm);
+			
+				std::cout << imp << std::endl;
 				
+				lhs->applyForce(Vector2Scale(norm, imp));
+
+				rhs->applyForce(Vector2Negate(Vector2Scale(norm, imp)));
+
+				isCollideing = false;
 			}
 		}
 	}
