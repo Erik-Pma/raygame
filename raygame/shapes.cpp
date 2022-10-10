@@ -254,6 +254,13 @@ Vector2 depenatrateAabbAabb(const Vector2& posA, const shape& shapeA, const Vect
 	
 	
 }
+Vector2 depenatrateCircleAabb(const Vector2& posA, const shape& shapeA, const Vector2& posB, const shape& shapeB, float& pen)
+{
+	pen = 1;
+	std::cout << "depened" << std::endl;
+
+	return Vector2();
+}
 /// <summary>
 /// takes in the the values of 2 objects and caluclates the impulse force and returns it
 /// </summary>

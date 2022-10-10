@@ -44,6 +44,7 @@ void baseGame::init()
 
 	depenMap [static_cast<uint8_t>(shapeType::CIRCLE | shapeType::CIRCLE)]= depenatrateCircleCircle;
 	depenMap [static_cast<uint8_t>(shapeType::AABB | shapeType::AABB)]= depenatrateAabbAabb;
+	depenMap [static_cast<uint8_t>(shapeType::CIRCLE | shapeType::AABB)] = depenatrateCircleAabb;
 	SetTargetFPS(60);
 	//TODO: add any other things to initalition 
 	//Objects.push_back(ball);
