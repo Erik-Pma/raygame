@@ -132,19 +132,21 @@ void baseGame::fixedUpdate()
 
 				//setVelocity(lhs->velocity, lhs->collider);
 
-				lhs->position = Vector2Add (lhs->getPosition(), Vector2Scale(norm, pen/1.7));
+				lhs->position = Vector2Add (lhs->getPosition(), Vector2Scale(norm, pen/1.9));
 
-				rhs->position = Vector2Add(rhs->getPosition(), Vector2Scale(norm,-pen/1.7));
+				rhs->position = Vector2Add(rhs->getPosition(), Vector2Scale(norm,-pen/1.9));
 				
-				float imp = resolveCollision(lhs->position, lhs->velocity, lhs->getMass(), rhs->position, rhs->velocity, rhs->getMass(), 0.5f, norm);
+				isCollideing = false;
+
+				float imp = resolveCollision(lhs->position, lhs->velocity, lhs->getMass(), rhs->position, rhs->velocity, rhs->getMass(), 1.1f, norm);
 			
 				std::cout << imp << std::endl;
 				
-				lhs->applyForce(Vector2Scale(norm, imp));
+				lhs->applyForce(Vector2Scale(norm, -imp));
 
-				rhs->applyForce(Vector2Negate(Vector2Scale(norm, imp)));
+				rhs->applyForce(Vector2Scale(norm, imp));
 
-				isCollideing = false;
+				
 			}
 		}
 	}

@@ -162,37 +162,25 @@ Vector2 depenatrateAabbAabb(const Vector2& posA, const shape& shapeA, const Vect
 	Vector2 posBCentered = { posB.x + shapeB.aabbData.size / 2,posB.y + shapeB.aabbData.size / 2 };
 
 	Vector2 distance = calculateAabbDistanceTo(posACentered,shapeA,posBCentered,shapeB);
-	Vector2 velo = { shapeA.aabbData.vx,shapeA.aabbData.vy };
 	
 	
 	
-	
+	/*
 	float xAxisTimeToCollide = velo.x != 0 ? abs(distance.x / velo.x) : 0;
 	float yAxisTimeToCollide = velo.y != 0 ? abs(distance.y / velo.y) : 0;
+	Vector2 velo = { shapeA.aabbData.vx,shapeA.aabbData.vy };
+	
+	float shortestTime = 0;
+	
+	*/
+	
 
 	//std::cout << xAxisTimeToCollide << std::endl;
 	//std::cout << yAxisTimeToCollide << std::endl;
-	float shortestTime = 0;
+	
 	 
-	pen = 1 ;
-	if (velo.x !=0 && velo.y == 0) 
-	{
-		shortestTime = xAxisTimeToCollide;
-		posValue.x = shortestTime * velo.x;
-
-
-	}
-	else if (velo.x == 0 && velo.y !=0) 
-	{
-		shortestTime = yAxisTimeToCollide;
-		posValue.y = shortestTime * velo.y;
-	}
-	else
-	{
-		shortestTime = __min( abs(xAxisTimeToCollide), abs(yAxisTimeToCollide));
-		posValue.x = shortestTime * velo.x;
-		posValue.y = shortestTime * velo.y;
-	}
+	pen = (shapeA.aabbData.size * pow(2,.5f) + shapeB.aabbData.size * pow(2,.5f)) - Vector2Distance(posACentered,posBCentered);
+	
 
 	/*
 	float dxEntry;
@@ -250,16 +238,18 @@ Vector2 depenatrateAabbAabb(const Vector2& posA, const shape& shapeA, const Vect
 	
 
 
-	return posValue;
+	return Vector2Normalize(Vector2Subtract(posBCentered, posACentered));
 	
 	
 }
 Vector2 depenatrateCircleAabb(const Vector2& posA, const shape& shapeA, const Vector2& posB, const shape& shapeB, float& pen)
 {
-	pen = 1;
+	Vector2 posBCentered = { posB.x + shapeB.aabbData.size / 2,posB.y + shapeB.aabbData.size / 2 };
+	float sizeAdded = shapeA.circleData.radius + shapeB.aabbData.size;
+	pen = sizeAdded - Vector2Distance(posA,posBCentered);
 	std::cout << "depened" << std::endl;
 
-	return Vector2();
+	return Vector2Normalize(Vector2Subtract(posA, posBCentered));
 }
 /// <summary>
 /// takes in the the values of 2 objects and caluclates the impulse force and returns it
