@@ -31,6 +31,9 @@ void baseGame::addObject(rigidBody object)
 	Objects.push_back(object);
 }*/
 
+/// <summary>
+/// happens on start as the first thing the happens to make the window
+/// </summary>
 void baseGame::init() 
 {
 	int screenWidth = 1600;
@@ -41,16 +44,26 @@ void baseGame::init()
 	detectionMap[static_cast<uint8_t>(shapeType::CIRCLE | shapeType::CIRCLE)] = checkCircleCircle;
 	detectionMap[static_cast<uint8_t>(shapeType::AABB | shapeType::AABB)] = checkAabbAabb;
 	detectionMap[static_cast<uint8_t>(shapeType::CIRCLE | shapeType::AABB)] = checkCircleAabb;
+	detectionMap[static_cast<uint8_t>(shapeType::CIRCLE | shapeType::PLANE)] = checkCirclePlane;
+	detectionMap[static_cast<uint8_t>(shapeType::AABB | shapeType::PLANE)] = checkAabbPlane;
+	detectionMap[static_cast<uint8_t>(shapeType::PLANE | shapeType::PLANE)] = checkPlanePlane;
+
 
 	depenMap [static_cast<uint8_t>(shapeType::CIRCLE | shapeType::CIRCLE)]= depenatrateCircleCircle;
 	depenMap [static_cast<uint8_t>(shapeType::AABB | shapeType::AABB)]= depenatrateAabbAabb;
 	depenMap [static_cast<uint8_t>(shapeType::CIRCLE | shapeType::AABB)] = depenatrateCircleAabb;
+	depenMap [static_cast<uint8_t>(shapeType::CIRCLE | shapeType::PLANE)] = depenatrateCircleAabb;
+	depenMap [static_cast<uint8_t>(shapeType::AABB | shapeType::PLANE)] = depenatrateCircleAabb;
+	depenMap [static_cast<uint8_t>(shapeType::PLANE | shapeType::PLANE)] = depenatratePlanePlane;
+	
 	SetTargetFPS(60);
 	//TODO: add any other things to initalition 
 	//Objects.push_back(ball);
 	onInit();
 }
-
+/// <summary>
+/// happens every frame
+/// </summary>
 void baseGame::update() 
 {
 	//std::cout << "this is update" << std::endl;
@@ -61,12 +74,16 @@ void baseGame::update()
 	
 	onTick();
 }
+/// <summary>
+/// the updaet that happedns on a fixed time step
+/// </summary>
 void baseGame::fixedUpdate() 
 {
 	accumatedFixedTime -= targetFixedStep;
 	//TODO: physics updates in here;
 	for (physicsObject& i : physObject) 
 	{
+		
 		Vector2 dragForce = Vector2Scale( i.velocity, 0.5f * i.drag);
 
 		// totally not fake gravity and drag
@@ -131,20 +148,30 @@ void baseGame::fixedUpdate()
 				Vector2 norm = depenMap[pair](lhs->position, lhs->collider, rhs->position, rhs->collider, pen);
 
 				//setVelocity(lhs->velocity, lhs->collider);
+				if (!lhs->isStatic) 
+				{
+					lhs->position = Vector2Add(lhs->getPosition(), Vector2Scale(norm, pen / 1.9));
+				}
+				if (!rhs->isStatic)
+				{
 
-				lhs->position = Vector2Add (lhs->getPosition(), Vector2Scale(norm, pen/1.9));
-
-				rhs->position = Vector2Add(rhs->getPosition(), Vector2Scale(norm,-pen/1.9));
-				
+					rhs->position = Vector2Add(rhs->getPosition(), Vector2Scale(norm, -pen / 1.9));
+				}
 				isCollideing = false;
 
 				float imp = resolveCollision(lhs->position, lhs->velocity, lhs->getMass(), rhs->position, rhs->velocity, rhs->getMass(), 1.1f, norm);
 			
-				std::cout << imp << std::endl;
+				//std::cout << imp << std::endl;
 				
-				lhs->applyForce(Vector2Scale(norm, -imp));
-
-				rhs->applyForce(Vector2Scale(norm, imp));
+					
+				
+					lhs->applyForce(Vector2Scale(norm, -imp));
+				
+				
+				
+					rhs->applyForce(Vector2Scale(norm, imp));
+				
+				
 
 				
 			}
@@ -153,10 +180,18 @@ void baseGame::fixedUpdate()
 
 	onTickPhys();
 }
+/// <summary>
+/// if it should update the fixed update
+/// </summary>
+/// <returns></returns>
 bool baseGame::shouldFixedUpdate()
 {
 	return accumatedFixedTime >= targetFixedStep;
 }
+
+/// <summary>
+/// draws the objects
+/// </summary>
 void baseGame::draw() {
 	
 	for (physicsObject& obj : physObject)

@@ -43,4 +43,19 @@ void demoGame::onTick()
 		babyPhys.collider = babyAabb;
 
 	}
+	bool mb2 = IsMouseButtonPressed(2);
+	if (mb2) 
+	{
+		physObject.emplace_back();
+		auto& babyPhys = physObject.back();
+		Vector2 mousePos = GetMousePosition();
+		babyPhys.position = { mousePos.x,mousePos.y };
+		babyPhys.isStatic = true;
+
+		shape babyPlane;
+
+		babyPlane.type = shapeType::PLANE;
+		babyPlane.aabbData.size = 100.0f;
+		babyPhys.collider = babyPlane;
+	}
 }

@@ -91,6 +91,28 @@ bool checkCircleAabb(const Vector2& posA, circle Circle, const Vector2& posB, aa
 	}
 	return false;
 }
+bool checkCirclePlane(const Vector2& posA, circle circle, const Vector2& posB, aabb plane)
+{
+	
+	return checkCircleAabb(posA, circle, posB, plane);
+	
+}
+bool checkCirclePlane(const Vector2& posA, const shape& circleA, const Vector2& posB, const shape& planeB)
+{
+	return checkCirclePlane(posA, circleA.circleData, posB, planeB.aabbData);
+}
+bool checkAabbPlane(const Vector2& posA, aabb Aabb, const Vector2& posB, aabb plane)
+{
+	return false;
+}
+bool checkAabbPlane(const Vector2& posA, const shape& circleA, const Vector2& posB, const shape& planeB)
+{
+	return checkCirclePlane(posA, circleA.circleData, posB, planeB.aabbData);
+}
+bool checkPlanePlane(const Vector2& posA, const shape& AabbA, const Vector2& posB, const shape& planeB)
+{
+	return false;
+}
 void setVelocity(const Vector2& velo, circle shape)
 {
 	shape.vx = velo.x;
@@ -146,7 +168,7 @@ Vector2 depenatrateCircleCircle(const Vector2& posA, const shape& shapeA, const 
 	return Vector2Normalize(Vector2Subtract(posA, posB));
 }
 /// <summary>
-/// 
+/// depens the aabb
 /// </summary>
 /// <param name="posA"></param>
 /// <param name="shapeA"></param>
@@ -182,59 +204,7 @@ Vector2 depenatrateAabbAabb(const Vector2& posA, const shape& shapeA, const Vect
 	pen = (shapeA.aabbData.size * pow(2,.5f) + shapeB.aabbData.size * pow(2,.5f)) - Vector2Distance(posACentered,posBCentered);
 	
 
-	/*
-	float dxEntry;
-	float dxExit;
-	float dyEntry;
-	float dyExit;
-
-	float txEntry;
-	float txExit;
-	float tyEntry;
-	float tyExit;
-
-	if (shapeA.aabbData.vx > 0.0f) 
-	{
-		dxEntry = posBCentered.x - (posACentered.x + shapeA.aabbData.size);
-		dxExit = (posBCentered.x + shapeB.aabbData.size) - posACentered.x;
-	}
-	else 
-	{
-		dxEntry = (posBCentered.x + shapeB.aabbData.size) - posACentered.x;
-		dxExit = posBCentered.x - (posACentered.x + shapeA.aabbData.size);
-	}
-	if (shapeA.aabbData.vy > 0.0f)
-	{
-		dyEntry = posBCentered.y - (posACentered.y + shapeA.aabbData.size);
-		dyExit = (posBCentered.y + shapeB.aabbData.size) - posACentered.y;
-	}
-	else
-	{
-		dyEntry = (posBCentered.y + shapeB.aabbData.size) - posACentered.y;
-		dyExit = posBCentered.y - (posACentered.y + shapeA.aabbData.size);
-	}
 	
-	if (shapeA.aabbData.vx == 0.0f) 
-	{
-		txEntry = -std::numeric_limits<float>::infinity();
-		txExit = std::numeric_limits<float>::infinity();
-	}
-	else 
-	{
-		txEntry = dxEntry / shapeA.aabbData.vx;
-		txExit = dxExit / shapeA.aabbData.vx;
-	}
-	if (shapeA.aabbData.vx == 0.0f)
-	{
-		tyEntry = -std::numeric_limits<float>::infinity();
-		tyExit = std::numeric_limits<float>::infinity();
-	}
-	else
-	{
-		tyEntry = dyEntry / shapeA.aabbData.vy;
-		tyExit = dyExit / shapeA.aabbData.vy;
-	}
-	*/
 	
 
 
@@ -250,6 +220,10 @@ Vector2 depenatrateCircleAabb(const Vector2& posA, const shape& shapeA, const Ve
 	std::cout << "depened" << std::endl;
 
 	return Vector2Normalize(Vector2Subtract(posA, posBCentered));
+}
+Vector2 depenatratePlanePlane(const Vector2& posA, const shape& shapeA, const Vector2& posB, const shape& shapeB, float& pen)
+{
+	return Vector2();
 }
 /// <summary>
 /// takes in the the values of 2 objects and caluclates the impulse force and returns it
@@ -272,19 +246,27 @@ float resolveCollision(Vector2 posA, Vector2 velA, float massA, Vector2 posB, Ve
 	float impulsMagnutude = (2 * Vector2DotProduct(Vector2Subtract(velA,velB), normal))
 		/(Vector2DotProduct(normal,normal)*((1/massA)+(1/massB)));
 
+	
 	//float velAlongNormal = Vector2DotProduct(relativeVelocity, normal);
 
 	//if (velAlongNormal > 0)
 		//return;
 
-	return impulsMagnutude * elasticity;
+	return impulsMagnutude * elasticity ;
 
 	
 
 
 	
 }
-
+/// <summary>
+/// 
+/// </summary>
+/// <param name="posA"></param>
+/// <param name="shapeA"></param>
+/// <param name="posB"></param>
+/// <param name="shapeB"></param>
+/// <returns></returns>
 Vector2 calculateAabbDistanceTo(const Vector2& posA, const shape& shapeA, const Vector2& posB, const shape& shapeB)
 {
 	Vector2 distance = {0,0};
