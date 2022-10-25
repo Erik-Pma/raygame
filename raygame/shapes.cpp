@@ -247,11 +247,7 @@ float resolveCollision(Vector2 posA, Vector2 velA, float massA, Vector2 posB, Ve
 		/(Vector2DotProduct(normal,normal)*((1/massA)+(1/massB)));
 
 	
-	//float velAlongNormal = Vector2DotProduct(relativeVelocity, normal);
-
-	//if (velAlongNormal > 0)
-		//return;
-
+	
 	return impulsMagnutude * elasticity ;
 
 	

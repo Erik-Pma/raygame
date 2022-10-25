@@ -24,12 +24,7 @@ baseGame::baseGame()
 	usingWrapping = false;
 	useGravity = false;
 
-
-}/*
-void baseGame::addObject(rigidBody object) 
-{
-	Objects.push_back(object);
-}*/
+}
 
 /// <summary>
 /// happens on start as the first thing the happens to make the window
@@ -58,7 +53,7 @@ void baseGame::init()
 	
 	SetTargetFPS(60);
 	//TODO: add any other things to initalition 
-	//Objects.push_back(ball);
+	
 	onInit();
 }
 /// <summary>
@@ -141,9 +136,9 @@ void baseGame::fixedUpdate()
 
 			if (isCollideing) 
 			{
-				//std::cout << "I did a thing" << std::endl;
+				
 				//TODO: DO things
-				//bool isPen = true;
+				
 				float pen = 0;
 				Vector2 norm = depenMap[pair](lhs->position, lhs->collider, rhs->position, rhs->collider, pen);
 

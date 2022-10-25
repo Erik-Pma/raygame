@@ -23,10 +23,7 @@ public:
 
 	float targetFixedStep;
 	float accumatedFixedTime;
-	/*
-	std::list<rigidBody> Objects;
-	void addObject(rigidBody object);
-	*/
+	
 	void init();
 	void update();
 	void fixedUpdate();
