@@ -162,7 +162,7 @@ Vector2 depenatrateCircleCircle(const Vector2& posA, const shape& shapeA, const 
 	float radiusSum = shapeA.circleData.radius + shapeB.circleData.radius;
 
 	pen = radiusSum - dist;
-	//std::cout << "depen circle" << std::endl;
+	
 
 
 	return Vector2Normalize(Vector2Subtract(posA, posB));
@@ -187,18 +187,6 @@ Vector2 depenatrateAabbAabb(const Vector2& posA, const shape& shapeA, const Vect
 	
 	
 	
-	/*
-	float xAxisTimeToCollide = velo.x != 0 ? abs(distance.x / velo.x) : 0;
-	float yAxisTimeToCollide = velo.y != 0 ? abs(distance.y / velo.y) : 0;
-	Vector2 velo = { shapeA.aabbData.vx,shapeA.aabbData.vy };
-	
-	float shortestTime = 0;
-	
-	*/
-	
-
-	//std::cout << xAxisTimeToCollide << std::endl;
-	//std::cout << yAxisTimeToCollide << std::endl;
 	
 	 
 	pen = (shapeA.aabbData.size * pow(2,.5f) + shapeB.aabbData.size * pow(2,.5f)) - Vector2Distance(posACentered,posBCentered);

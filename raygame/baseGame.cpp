@@ -142,7 +142,7 @@ void baseGame::fixedUpdate()
 				float pen = 0;
 				Vector2 norm = depenMap[pair](lhs->position, lhs->collider, rhs->position, rhs->collider, pen);
 
-				//setVelocity(lhs->velocity, lhs->collider);
+				
 				if (!lhs->isStatic) 
 				{
 					lhs->position = Vector2Add(lhs->getPosition(), Vector2Scale(norm, pen / 1.9));
