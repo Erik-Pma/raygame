@@ -83,18 +83,11 @@ void baseGame::fixedUpdate()
 
 		// totally not fake gravity and drag
 		
-		if (i.velocity.y < 20) 
+		if (i.velocity.y < 40) 
 		{
 			i.applyForce({ 0,1.862f }, 1);
 		}
-		if (abs(i.velocity.x) + i.velocity.y > 20) 
-		{
-			
-			
-			
-			i.applyForce(Vector2Negate(dragForce));
-			i.velocity.x /= 2;
-		}
+		
 		i.position = Vector2Add(i.position,i.velocity);
 		// screen wrapping
 		if (i.position.x > 1600) {
@@ -154,7 +147,7 @@ void baseGame::fixedUpdate()
 				}
 				isCollideing = false;
 
-				float imp = resolveCollision(lhs->position, lhs->velocity, lhs->getMass(), rhs->position, rhs->velocity, rhs->getMass(), 1.1f, norm);
+				float imp = resolveCollision(lhs->position, lhs->velocity, lhs->getMass(), rhs->position, rhs->velocity, rhs->getMass(), .8f, norm);
 			
 				//std::cout << imp << std::endl;
 				
