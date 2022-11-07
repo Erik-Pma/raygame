@@ -140,24 +140,36 @@ void baseGame::fixedUpdate()
 				{
 					lhs->position = Vector2Add(lhs->getPosition(), Vector2Scale(norm, pen / 1.9));
 				}
+				
 				if (!rhs->isStatic)
 				{
 
 					rhs->position = Vector2Add(rhs->getPosition(), Vector2Scale(norm, -pen / 1.9));
 				}
+				
 				isCollideing = false;
 
 				float imp = resolveCollision(lhs->position, lhs->velocity, lhs->getMass(), rhs->position, rhs->velocity, rhs->getMass(), .8f, norm);
 			
 				//std::cout << imp << std::endl;
 				
+				if (!lhs->isStatic && !rhs->isStatic) 
+				{
 					
-				
-					lhs->applyForce(Vector2Scale(norm, -imp));
-				
-				
-				
-					rhs->applyForce(Vector2Scale(norm, imp));
+						lhs->applyForce(Vector2Scale(norm, imp));
+
+						rhs->applyForce(Vector2Scale(norm, -imp));
+					
+				}
+				else if(lhs->isStatic)
+				{
+					rhs->applyForce(Vector2Scale(norm, -imp*1.25f));
+				}
+				else if (rhs->isStatic)
+				{
+					lhs->applyForce(Vector2Scale(norm, imp * 1.25f));
+				}
+					
 				
 				
 
